@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c2kjih0v3jry8"]
+
+[node name="Node3D" type="Node3D" unique_id=1502782159]
+
+[node name="Label" type="Label" parent="." unique_id=1316503666]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Course 3"

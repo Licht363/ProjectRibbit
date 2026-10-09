@@ -1,0 +1,181 @@
+[gd_scene format=3 uid="uid://cg47coemj7s5n"]
+
+[ext_resource type="Script" uid="uid://27kqhd4ijxfe" path="res://Scripts/game_manager.gd" id="1_71wbt"]
+[ext_resource type="Script" uid="uid://bkb6vmkrjjek3" path="res://Scripts/BallControl.gd" id="1_tuelc"]
+[ext_resource type="Script" uid="uid://ctgl1anht1aj5" path="res://Scripts/audio_stream_player.gd" id="2_6mpi8"]
+[ext_resource type="AudioStream" uid="uid://yutuket83xi3" path="res://Audio/265114__henriquegomesbr__rural-ambiance-02.wav" id="2_8k6fp"]
+[ext_resource type="Texture2D" uid="uid://ktwhxaxccnex" path="res://Course1/Ground.png" id="2_678s6"]
+[ext_resource type="Script" uid="uid://8fyoyl1q075t" path="res://Scripts/oow.gd" id="4_ogvj7"]
+[ext_resource type="PackedScene" uid="uid://dvsp3q5ynhmaw" path="res://Scenes/Prefabs/tree.tscn" id="5_0vpyx"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_5y5ci"]
+radius = 0.01
+
+[sub_resource type="SphereMesh" id="SphereMesh_b04fr"]
+radius = 0.01
+height = 0.02
+
+[sub_resource type="Curve" id="Curve_0vpyx"]
+_data = [Vector2(0, 0.053191423), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_6mpi8"]
+curve = SubResource("Curve_0vpyx")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yicjq"]
+emission_shape = 1
+emission_sphere_radius = 0.01
+gravity = Vector3(0, 0, 0)
+scale_min = 0.01
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_6mpi8")
+
+[sub_resource type="QuadMesh" id="QuadMesh_0vpyx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yicjq"]
+size = Vector3(200, 0.2, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71wbt"]
+albedo_texture = ExtResource("2_678s6")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b04fr"]
+size = Vector2(200, 200)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b04fr"]
+size = Vector3(10000, 1, 10000)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yicjq"]
+transparency = 1
+cull_mode = 1
+albedo_color = Color(1, 0, 0, 0.7647059)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_b04fr"]
+material = SubResource("StandardMaterial3D_yicjq")
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_b04fr"]
+
+[node name="Node3D" type="Node3D" unique_id=163219841]
+
+[node name="GameManager" type="Node3D" parent="." unique_id=1357720932 node_paths=PackedStringArray("camPivot", "cam", "ball")]
+script = ExtResource("1_71wbt")
+camPivot = NodePath("../SpringArm3D")
+cam = NodePath("../SpringArm3D/Camera3D")
+ball = NodePath("../Ball")
+
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="GameManager" unique_id=1546760134]
+stream = ExtResource("2_8k6fp")
+script = ExtResource("2_6mpi8")
+background_music = ExtResource("2_8k6fp")
+
+[node name="AmbientPlayer" type="AudioStreamPlayer" parent="GameManager" unique_id=1006920131]
+stream = ExtResource("2_8k6fp")
+
+[node name="SFXPlayer" type="AudioStreamPlayer" parent="GameManager" unique_id=814890493]
+stream = ExtResource("2_8k6fp")
+
+[node name="Ball" type="RigidBody3D" parent="." unique_id=1876578717 node_paths=PackedStringArray("label_a", "label_b", "label_c", "multiplier_label", "minigame_obj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0683035, 0)
+script = ExtResource("1_tuelc")
+label_a = NodePath("../CanvasLayer/Label")
+label_b = NodePath("../CanvasLayer/Label2")
+label_c = NodePath("../CanvasLayer/Label3")
+multiplier_label = NodePath("../CanvasLayer/Main Bar/Label")
+minigame_obj = NodePath("../CanvasLayer/Main Bar")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball" unique_id=2090829607]
+shape = SubResource("SphereShape3D_5y5ci")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball" unique_id=595699611]
+mesh = SubResource("SphereMesh_b04fr")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Ball" unique_id=938701578]
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_yicjq")
+draw_pass_1 = SubResource("QuadMesh_0vpyx")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=709334979]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0683035, 0)
+
+[node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=214326956]
+transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=309381739]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1911986792]
+shape = SubResource("BoxShape3D_yicjq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=202540305]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0031969547, 0, -0.004295826)
+material_override = SubResource("StandardMaterial3D_71wbt")
+mesh = SubResource("PlaneMesh_b04fr")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=59875798]
+transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1849546054]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1700363, 0)
+script = ExtResource("4_ogvj7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=2001562497]
+shape = SubResource("BoxShape3D_b04fr")
+
+[node name="Tree" parent="." unique_id=284257866 instance=ExtResource("5_0vpyx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.745373, 1.1000004, -0.100450516)
+
+[node name="Start" type="Node3D" parent="." unique_id=1986108101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.546689, 1, 82.864204)
+
+[node name="Area3D" type="Area3D" parent="Start" unique_id=102323047]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Start/Area3D" unique_id=448282227]
+mesh = SubResource("CylinderMesh_b04fr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Start/Area3D" unique_id=753855895]
+shape = SubResource("CylinderShape3D_b04fr")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1235620896]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1101895121]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Label2" type="Label" parent="CanvasLayer" unique_id=149061007]
+offset_top = 26.0
+offset_right = 40.0
+offset_bottom = 49.0
+
+[node name="Label3" type="Label" parent="CanvasLayer" unique_id=70505246]
+offset_top = 52.0
+offset_right = 40.0
+offset_bottom = 75.0
+
+[node name="Main Bar" type="ColorRect" parent="CanvasLayer" unique_id=627132497]
+offset_left = 288.0
+offset_top = 605.0
+offset_right = 864.0
+offset_bottom = 645.0
+
+[node name="Red Bar" type="ColorRect" parent="CanvasLayer/Main Bar" unique_id=449246372]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 573.0
+offset_bottom = 37.0
+color = Color(1, 0, 0, 1)
+
+[node name="Indicator" type="ColorRect" parent="CanvasLayer/Main Bar/Red Bar" unique_id=1963108263]
+layout_mode = 0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 40.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/Main Bar" unique_id=2038665448]
+layout_mode = 0
+offset_left = 262.0
+offset_top = -33.0
+offset_right = 302.0
+offset_bottom = -10.0
+text = "0.0"
+
+[connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

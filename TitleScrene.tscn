@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://lyiun2u7ovdh"]
+
+[ext_resource type="Script" uid="uid://bkotnlgrimql" path="res://Scripts/control.gd" id="1_xtinp"]
+
+[node name="Control" type="Control" unique_id=1522566015]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_xtinp")
+scene_to_load = "LevelSelect"
+
+[node name="Title" type="Label" parent="." unique_id=986496356]
+layout_mode = 0
+offset_left = 548.0
+offset_top = 124.0
+offset_right = 600.0
+offset_bottom = 147.0
+text = "GROLF"
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="." unique_id=1841516950]
+layout_mode = 0
+offset_left = 553.0
+offset_top = 166.0
+offset_right = 599.0
+offset_bottom = 197.0
+text = "Start"
+
+[node name="Exit" type="Button" parent="." unique_id=1171926253]
+layout_mode = 0
+offset_left = 558.0
+offset_top = 208.0
+offset_right = 595.0
+offset_bottom = 239.0
+text = "Exit"
+
+[connection signal="pressed" from="Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

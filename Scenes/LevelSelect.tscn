@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://doat58q5iuc8e"]
+
+[ext_resource type="FontFile" uid="uid://2mrxoj4dhvha" path="res://Magnolia Script.otf" id="1_1cx81"]
+[ext_resource type="PackedScene" uid="uid://b05gpgnac46sa" path="res://Scenes/Prefabs/planet_object.tscn" id="1_chbko"]
+[ext_resource type="Script" uid="uid://ckkmyv1ptdh17" path="res://Scripts/planet_spinner.gd" id="1_fo23m"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fo23m"]
+font = ExtResource("1_1cx81")
+
+[node name="Node3D" type="Node3D" unique_id=91568151]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1034825903]
+
+[node name="Control" type="Control" parent="CanvasLayer" unique_id=523444784]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control" unique_id=1977358024]
+layout_mode = 0
+offset_left = 546.0
+offset_top = 466.0
+offset_right = 638.0
+offset_bottom = 489.0
+text = "Example Text"
+label_settings = SubResource("LabelSettings_fo23m")
+
+[node name="Button" type="Button" parent="CanvasLayer/Control" unique_id=1028452193]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 0
+offset_left = 488.0
+offset_top = 271.0
+offset_right = 664.0
+offset_bottom = 446.0
+
+[node name="Planet Spinner" type="Node3D" parent="." unique_id=46131525 node_paths=PackedStringArray("planet_name_label")]
+script = ExtResource("1_fo23m")
+planet = Array[PackedScene]([ExtResource("1_chbko"), ExtResource("1_chbko"), ExtResource("1_chbko"), ExtResource("1_chbko")])
+course_list = Array[String](["Course1", "Course2", "Course3", "Course4"])
+orbit_radius = 4.0
+spin_speed = 1.0
+snap_speed = 5.0
+planet_name_label = NodePath("../CanvasLayer/Control/Label")
+
+[node name="Pivot" type="Node3D" parent="Planet Spinner" unique_id=129334002]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1283172417]
+transform = Transform3D(1, 0, 0, 0, 0.9532497, 0.3021838, 0, -0.3021838, 0.9532497, 0, 1, 6.5)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=251813444]
+
+[connection signal="pressed" from="CanvasLayer/Control/Button" to="Planet Spinner" method="_on_button_pressed"]
