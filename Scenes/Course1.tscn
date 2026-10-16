@@ -65,7 +65,6 @@ ball = NodePath("../Ball")
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="GameManager" unique_id=1546760134]
 stream = ExtResource("2_8k6fp")
 script = ExtResource("2_6mpi8")
-background_music = ExtResource("2_8k6fp")
 
 [node name="AmbientPlayer" type="AudioStreamPlayer" parent="GameManager" unique_id=1006920131]
 stream = ExtResource("2_8k6fp")
@@ -73,14 +72,17 @@ stream = ExtResource("2_8k6fp")
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="GameManager" unique_id=814890493]
 stream = ExtResource("2_8k6fp")
 
-[node name="Ball" type="RigidBody3D" parent="." unique_id=1876578717 node_paths=PackedStringArray("label_a", "label_b", "label_c", "multiplier_label", "minigame_obj")]
+[node name="Ball" type="RigidBody3D" parent="." unique_id=1876578717 node_paths=PackedStringArray("label_a", "label_b", "label_c", "multiplier_label", "minigame_obj", "timer")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0683035, 0)
+contact_monitor = true
+max_contacts_reported = 4
 script = ExtResource("1_tuelc")
 label_a = NodePath("../CanvasLayer/Label")
 label_b = NodePath("../CanvasLayer/Label2")
 label_c = NodePath("../CanvasLayer/Label3")
 multiplier_label = NodePath("../CanvasLayer/Main Bar/Label")
 minigame_obj = NodePath("../CanvasLayer/Main Bar")
+timer = NodePath("Timer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ball" unique_id=2090829607]
 shape = SubResource("SphereShape3D_5y5ci")
@@ -93,13 +95,16 @@ amount = 20
 process_material = SubResource("ParticleProcessMaterial_yicjq")
 draw_pass_1 = SubResource("QuadMesh_0vpyx")
 
+[node name="Timer" type="Timer" parent="Ball" unique_id=1868755056]
+one_shot = true
+
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=709334979]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0683035, 0)
 
 [node name="Camera3D" type="Camera3D" parent="SpringArm3D" unique_id=214326956]
 transform = Transform3D(-1, 0, 1.509958e-07, 0, 1, 0, -1.509958e-07, 0, -1, 0, 0, 0)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=309381739]
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=309381739 groups=["Floor"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1911986792]
 shape = SubResource("BoxShape3D_yicjq")
@@ -110,7 +115,7 @@ material_override = SubResource("StandardMaterial3D_71wbt")
 mesh = SubResource("PlaneMesh_b04fr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=59875798]
-transform = Transform3D(1, 0, 0, 0, 0.70710677, 0.70710677, 0, -0.70710677, 0.70710677, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.7071068, 0.7071068, 0, -0.7071068, 0.7071068, 0, 19.324999, 0)
 
 [node name="Area3D" type="Area3D" parent="." unique_id=1849546054]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1700363, 0)
@@ -178,4 +183,6 @@ offset_right = 302.0
 offset_bottom = -10.0
 text = "0.0"
 
+[connection signal="body_entered" from="Ball" to="Ball" method="_on_body_entered"]
+[connection signal="timeout" from="Ball/Timer" to="Ball" method="_on_timer_timeout"]
 [connection signal="body_exited" from="Area3D" to="Area3D" method="_on_body_exited"]

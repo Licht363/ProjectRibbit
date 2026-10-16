@@ -24,6 +24,10 @@ AudioManager="*uid://ctgl1anht1aj5"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[global_group]
+
+Floor="grouping for floor levels"
+
 [input]
 
 Click={

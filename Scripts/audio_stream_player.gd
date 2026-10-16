@@ -1,4 +1,4 @@
-extends Node
+extends AudioStreamPlayer
 var music_player: AudioStreamPlayer
 var ambient_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
@@ -8,7 +8,7 @@ var sfx_player: AudioStreamPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	music_player = $"."
+	music_player = self
 	ambient_player = $"../AmbientPlayer"
 	sfx_player = $"../SFXPlayer"
 	play_music(background_music)
@@ -23,7 +23,7 @@ func play_music(stream: AudioStreamWAV, cross_fade_duration: float = 1.0):
 	if stream != null:
 		music_player.stream = stream
 
-func play_sfx(stream: AudioStreamWAV, pitch_variance: float = 0.0):
+func play_sfx(stream: AudioStream, pitch_variance: float = 0.0):
 	if sfx_player != null && !sfx_player.playing:
 		sfx_player.stream = stream
 	if pitch_variance > 0.0:
